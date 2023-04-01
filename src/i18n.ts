@@ -13,6 +13,7 @@ export const i18nLanguages = [
   'es',
   'fr',
   'fr-FR',
+  'it',
   'ja',
   'ms',
   'nb',
@@ -33,7 +34,7 @@ i18n
       loadPath: 'locales/{{lng}}/{{ns}}.json',
     },
     fallbackLng: {
-      default: ['en'],
+      default: ['it'],
     },
     ns: ['main', 'api', 'about', 'model'],
     defaultNS: 'main',
