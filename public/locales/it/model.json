@@ -1,0 +1,28 @@
+{
+  "configuration": "Configurazione",
+  "model": "Modello",
+  "token": {
+    "label": "Numero massimo di token",
+    "description": "Il numero massimo di token da generare nella completamento della chat. La lunghezza totale dei token di input e dei token generati è limitata dalla lunghezza del contesto del modello."
+  },
+  "default": "Predefinito",
+  "temperature": {
+    "label": "Temperatura",
+    "description": "A che temperatura di campionamento utilizzare, compreso tra 0 e 2. I valori più elevati come 0,8 renderanno l'output più casuale, mentre quelli più bassi come 0,2 lo renderanno più focalizzato e deterministico. Generalmente consigliamo di modificare questo o il top p ma non entrambi. (Predefinito: 1)"
+  },
+  "presencePenalty": {
+    "label": "Penalità di presenza",
+    "description": "Numero compreso tra -2,0 e 2,0. I valori positivi penalizzano i nuovi token in base al fatto che appaiano nel testo finora, aumentando la probabilità del modello di parlare di nuovi argomenti. (Predefinito: 0)"
+  },
+  "topP": {
+    "label": "Top-p",
+    "description": "Numero compreso tra 0 e 1. Un'alternativa al campionamento con temperatura, chiamata campionamento del nucleo, in cui il modello considera i risultati dei token con la massima massa di probabilità. Quindi 0,1 significa che vengono considerati solo i token che costituiscono il 10% della massa di probabilità superiore. Generalmente consigliamo di modificare questo o la temperatura ma non entrambi. (Predefinito: 1)"
+  },
+  "frequencyPenalty": {
+    "label": "Penalità di frequenza",
+    "description": "Numero compreso tra -2,0 e 2,0. I valori positivi penalizzano i nuovi token in base alla loro frequenza esistente nel testo finora, diminuendo la probabilità del modello di ripetere la stessa linea testuale alla lettera. (Predefinito: 0)"
+  },
+  "defaultChatConfig": "Configurazione di chat predefinita",
+  "defaultSystemMessage": "Messaggio di sistema predefinito",
+  "resetToDefault": "Ripristina predefiniti"
+}

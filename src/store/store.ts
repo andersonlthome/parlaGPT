@@ -21,7 +21,7 @@ import {
   migrateV3,
   migrateV4,
   migrateV5,
-  migrateV6,
+  // migrateV6, does'nt work anymore
 } from './migrate';
 
 export type StoreState = ChatSlice &
@@ -78,9 +78,9 @@ const useStore = create<StoreState>()(
             migrateV4(persistedState as LocalStorageInterfaceV4ToV5);
           case 5:
             migrateV5(persistedState as LocalStorageInterfaceV5ToV6);
-          case 6:
-            migrateV6(persistedState as LocalStorageInterfaceV6ToV7);
-            break;
+          // case 6: does'nt work anymore
+          //   migrateV6(persistedState as LocalStorageInterfaceV6ToV7);
+          //   break;
         }
         return persistedState as StoreState;
       },
