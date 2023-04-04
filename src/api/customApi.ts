@@ -1,40 +1,24 @@
 import { ConfigInterface, MessageInterface } from '@type/chat';
-
-export const endpoint = 'https://api.openai.com/v1/chat/completions';
-
-export const validateApiKey = async (apiKey: string) => {
-  try {
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
-      },
-    });
-    const data = await response.json();
-
-    if (response.status === 401) return false;
-    else if (response.status === 400) return true;
-  } catch (error) {
-    console.error('Error:', error);
-    return false;
-  }
-};
+import { officialAPIEndpoint } from '@constants/auth';
 
 export const getChatCompletion = async (
-  apiKey: string,
+  endpoint: string,
   messages: MessageInterface[],
-  config: ConfigInterface
+  config: ConfigInterface,
+  apiKey?: string
 ) => {
-  const response = await fetch(endpoint, {
+  const headers: HeadersInit = {
+    'Content-Type': 'application/json',
+  };
+  if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
+
+  const response = await fetch(!apiKey ? endpoint : officialAPIEndpoint, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${apiKey}`,
-    },
+    headers: headers,
     body: JSON.stringify({
       messages,
       ...config,
+      max_tokens: null,
     }),
   });
   if (!response.ok) throw new Error(await response.text());
@@ -44,23 +28,40 @@ export const getChatCompletion = async (
 };
 
 export const getChatCompletionStream = async (
-  apiKey: string,
+  endpoint: string,
   messages: MessageInterface[],
-  config: ConfigInterface
+  config: ConfigInterface,
+  apiKey?: string
 ) => {
-  const response = await fetch(endpoint, {
+  const headers: HeadersInit = {
+    'Content-Type': 'application/json',
+  };
+  if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
+  console.log('apiKey', apiKey)
+  const response = await fetch(!apiKey ? endpoint : officialAPIEndpoint, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${apiKey}`,
-    },
+    headers: headers,
     body: JSON.stringify({
       messages,
       ...config,
+      max_tokens: null,
       stream: true,
     }),
   });
-  if (!response.ok) throw new Error(await response.text());
+  if (response.status === 404 || response.status === 405)
+    throw new Error(
+      'Message from Better ChatGPT:\nInvalid API endpoint! We recommend you to check your free API endpoint.'
+    );
+
+  if (response.status === 429 || !response.ok) {
+    const text = await response.text();
+    let error = text;
+    if (text.includes('insufficient_quota')) {
+      error +=
+        '\nMessage from Better ChatGPT:\nWe recommend changing your API endpoint or API key';
+    }
+    throw new Error(error);
+  }
 
   const stream = response.body;
   return stream;
