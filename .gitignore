@@ -29,3 +29,6 @@ dist-ssr
 *.sw?
 
 release/
+
+#build
+buildspec.yml
